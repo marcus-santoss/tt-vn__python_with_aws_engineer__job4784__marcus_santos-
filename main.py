@@ -12,7 +12,6 @@ class MiniVenmo:
 
     @staticmethod
     def render_feed(feed):
-        # Logic to render application feed
         for message in feed:
             print(message)
 
