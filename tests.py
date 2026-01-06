@@ -41,8 +41,6 @@ class TestUser(unittest.TestCase):
 
         u1.pay(u2, 5, "Coffe")
 
-        print(u1.balance)
-        print(u2.balance)
         self.assertEqual(u1.balance, 5)
         self.assertEqual(u2.balance, 15)
 
@@ -72,6 +70,30 @@ class TestUser(unittest.TestCase):
 
         with self.assertRaises(PaymentException):
             u1.pay(u2, 20, "Coffe")
+
+    def test_add_friend(self):
+        u1 = User("test1")
+        u2 = User("test2")
+
+        u1.add_friend(u2)
+        self.assertEqual(u1.friends, [u2])
+
+    def test_add_two_friends(self):
+        u1 = User("test1")
+        u2 = User("test2")
+        u3 = User("test3")
+
+        u1.add_friend(u2)
+        u1.add_friend(u3)
+        self.assertEqual(u1.friends, [u2, u3])
+
+    def test_add_friend_twice(self):
+        u1 = User("test1")
+        u2 = User("test2")
+
+        u1.add_friend(u2)
+        self.assertEqual(u1.friends, [u2])
+        self.assertEqual(1, len(u1.friends))
 
 
 if __name__ == '__main__':

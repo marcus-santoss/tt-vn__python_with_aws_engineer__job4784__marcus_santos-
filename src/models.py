@@ -40,7 +40,7 @@ class User:
             self._friend_usernames.add(new_friend.username)
             self.friends.append(new_friend)
         else:
-            print("Friend already added")
+            print(f"{new_friend.username} already added")
 
     def add_to_balance(self, amount) -> None:
         if amount < 1:
