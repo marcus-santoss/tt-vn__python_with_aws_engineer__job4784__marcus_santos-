@@ -25,9 +25,11 @@ class TestUser(unittest.TestCase):
             u = User(username)
             u.add_credit_card(credit_card_number)
 
-    def test_this_works(self):
+    def test_create_user_with_invalid_username(self):
+        username = "@Jack#Bottleneck"
         with self.assertRaises(UsernameException):
-            raise UsernameException()
+            User(username)
+
 
 
 if __name__ == '__main__':
