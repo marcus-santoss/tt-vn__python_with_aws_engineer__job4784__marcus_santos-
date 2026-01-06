@@ -47,5 +47,21 @@ class TestUser(unittest.TestCase):
         self.assertEqual(u2.balance, 15)
 
 
+    def test_payment_with_card(self):
+        u1 = User("test1")
+        u1.add_credit_card("4111111111111111")
+        u1.add_to_balance(10)
+
+        u2 = User("test2")
+        u2.add_credit_card("4242424242424242")
+        u2.add_to_balance(10)
+
+        u1.pay(u2, 20, "Coffe")
+
+        print(u1.balance)
+        print(u2.balance)
+        self.assertEqual(u1.balance, 10)
+        self.assertEqual(u2.balance, 30)
+
 if __name__ == '__main__':
     unittest.main()
