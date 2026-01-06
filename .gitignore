@@ -1,0 +1,46 @@
+# Node
+node_modules/
+dist/
+.env.local
+.env.*.local
+.env
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+vite-error.log*
+
+# Editor folders
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage/
+*.lcov
+
+# Build output
+/dist
+/.output
+
+# Cache
+.cache/
+.vuepress/dist
+public/
+*.local
+*.sublime-workspace
+
+# Vite / Webpack
+.vite/
+*.temp
+temp/
+
+# Optional: lock files if you're using just one
+# yarn.lock
+# package-lock.json
+# pnpm-lock.yaml
