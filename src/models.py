@@ -23,13 +23,16 @@ class User:
         self.credit_card_number: str | None = None
         self.balance: float = 0.0
         self.feed: list[str] = []
+        self.friends: list[User] = []
 
-    def retrieve_feed(self):
-        return self.feed
+    def retrieve_feed(self) -> list[str]:
+        feed: list[str] = self.feed.copy()
+        for friend in self.friends:
+            feed.extend(friend.feed)
+        return feed
 
     def add_friend(self, new_friend):
-        # TODO: add code here
-        pass
+        self.friends.append(new_friend)
 
     def add_to_balance(self, amount):
         self.balance += float(amount)

@@ -10,11 +10,11 @@ class MiniVenmo:
         user.add_to_balance(balance)
         return user
 
-    def render_feed(self, feed):
-        # Bobby paid Carol $5.00 for Coffee
-        # Carol paid Bobby $15.00 for Lunch
-        # TODO: add code here
-        pass
+    @staticmethod
+    def render_feed(feed):
+        # Logic to render application feed
+        for message in feed:
+            print(message)
 
     @classmethod
     def run(cls):
@@ -32,10 +32,14 @@ class MiniVenmo:
         except PaymentException as e:
             print(e)
 
-        feed = bobby.retrieve_feed()
-        venmo.render_feed(feed)
-
+        # Add Bob's Friend
         bobby.add_friend(carol)
+
+        # Getting Bob's Feed
+        feed = bobby.retrieve_feed()
+
+        # Render Feed
+        venmo.render_feed(feed)
 
 
 if __name__ == '__main__':
