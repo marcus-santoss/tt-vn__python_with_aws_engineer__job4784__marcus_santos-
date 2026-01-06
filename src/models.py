@@ -9,9 +9,12 @@ class Payment:
     def __init__(self, amount, actor, target, note):
         self.id = str(uuid.uuid4())
         self.amount = float(amount)
-        self.actor = actor
-        self.target = target
-        self.note = note
+        self.actor: User = actor
+        self.target: User = target
+        self.note: str = note
+
+    def get_feed(self):
+        return f"{self.actor.username} paid {self.target.username} ${self.amount} for {self.note}"
 
 
 class User:
@@ -24,6 +27,7 @@ class User:
         self.balance: float = 0.0
         self.feed: list[str] = []
         self.friends: list[User] = []
+        self._friend_usernames: set[str] = set()
 
     def retrieve_feed(self) -> list[str]:
         feed: list[str] = self.feed.copy()
@@ -31,10 +35,16 @@ class User:
             feed.extend(friend.feed)
         return feed
 
-    def add_friend(self, new_friend):
-        self.friends.append(new_friend)
+    def add_friend(self, new_friend: User) -> None:
+        if new_friend.username not in self._friend_usernames:
+            self._friend_usernames.add(new_friend.username)
+            self.friends.append(new_friend)
+        else:
+            print("Friend already added")
 
-    def add_to_balance(self, amount):
+    def add_to_balance(self, amount) -> None:
+        if amount < 1:
+            raise ValueError("Amount must be positive.")
         self.balance += float(amount)
 
     def add_credit_card(self, credit_card_number):
@@ -50,7 +60,6 @@ class User:
     def pay(self, target, amount, note) -> Payment:
         if self.balance >= amount:
             return self.pay_with_balance(target, amount, note)
-
         return self.pay_with_card(target, amount, note)
 
     def pay_with_card(self, target, amount, note) -> Payment:
@@ -73,10 +82,12 @@ class User:
         return payment
 
     def add_feed(self, payment: Payment):
-        msg = f"{self.username} paid {payment.target.username} ${payment.amount} for {payment.note}"
-        self.feed.append(msg)
+        self.feed.append(payment.get_feed())
 
     def pay_with_balance(self, target: User, amount: float, note: str) -> Payment:
+        if amount <= 0:
+            raise PaymentException('Amount must be positive.')
+
         # removes the balance from payer
         self.balance -= amount
 
@@ -84,7 +95,7 @@ class User:
         target.add_to_balance(amount)
 
         # Store de history of transaction
-        payment = Payment(amount, "Balance", target, note)
+        payment = Payment(amount, self, target, note)
         self.add_feed(payment)
 
         return payment
